@@ -2,140 +2,55 @@
 #include <stdlib.h>
 #include <string.h>
 
+char palabras_de_amor[1000][100];
+
+void escribir_palabras() {
+    FILE *fileA = fopen("amor.csv", "a+");
+    if (!fileA) {
+        perror("No se pudo abrir el archivo de amor");
+        return;
+    }
+
+    printf("Escribe palabras de amor para agregar al archivo (máximo 999 caracteres):\n");
+    char entrada[1000];
+    scanf(" %[^\n]", entrada);
+
+    fprintf(fileA, "%s\n", entrada);
+    fflush(fileA);
+
+    fclose(fileA); // Cerramos el archivo después de escribir
+}
+
+void leer_palabras_amor() {
+    FILE *fileA = fopen("amor.csv", "r");
+    if (!fileA) {
+        perror("No se pudo abrir el archivo de amor");
+        return;
+    }
+
+    char amor[100000];
+    int contA = 0;
+
+    while (fgets(amor, sizeof(amor), fileA)) {
+        char *pchA;
+        pchA = strtok(amor, " .,-");
+        while (pchA != NULL) {
+            strcpy(palabras_de_amor[contA], pchA);
+            pchA = strtok(NULL, " .,-");
+            contA += 1;
+        }
+    }
+
+    fclose(fileA); // Cerramos el archivo después de leer
+}
 
 int main() {
-    FILE *file = fopen("conocimiento.csv", "r");
-    if (!file) {
-        perror("No se pudo abrir el archivo");
-        return 1;
+    //escribir_palabras();
+    leer_palabras();
+
+    for (int i = 0; i <3; i++) {
+        printf("%s\n", palabras_de_amor[i]);
     }
 
-    char palabras_de_amor[100000];
-
-    char palabras_de_desamor[100000];
-
-    char palabras_de_amistad[100000];
-
-    char palabras_de_desagrado[100000];
-
-    char palabras_de_felicidad[100000];
-
-    char amor[1000][100];
-
-    char desamor[1000][100];
-
-    char amistad[1000][100];
-
-    char desagrado[1000][100];
-
-    char felicidad[1000][100];
-    
-
-
-    if (fgets(palabras_de_amor, sizeof(palabras_de_amor), file)) {
-     printf("\nPalabras de amor: %s", palabras_de_amor);
-    }
-       
-
-char *pchA;
-    int contA = 0 ;
-    pchA = strtok(palabras_de_amor, " .,-");
-
-    while (pchA != NULL)
-    {
-        printf("%d \t", contA);
-
-        strcpy(amor[contA], pchA);
-        printf("%s\n", pchA);
-        pchA=strtok(NULL, " .,-");
-        contA +=1;
-    }
-
-
-
-
-    if (fgets(palabras_de_desamor, sizeof(palabras_de_desamor), file)) {
-        printf("\nPalbras de desamor: %s", palabras_de_desamor);
-    }
-
-char *pchD;
-    int contD = 0 ;
-    pchD = strtok(palabras_de_desamor, " .,-");
-
-    while (pchD != NULL)
-    {
-        printf("%d \t", contD);
-
-        strcpy(desamor[contD], pchD);
-        printf("%s\n", pchD);
-        pchD=strtok(NULL, " .,-");
-        contD +=1;
-    }
-
-
-
-    if (fgets(palabras_de_amistad, sizeof(palabras_de_amistad), file)) {
-        printf("\nPalabras de amistad: %s", palabras_de_amistad);
-    }
-
-char *pchAM;
-    int contAM = 0 ;
-    pchAM = strtok(palabras_de_amistad, " .,-");
-
-    while (pchAM != NULL)
-    {
-        printf("%d \t", contAM);
-
-        strcpy(amistad[contAM], pchAM);
-        printf("%s\n", pchAM);
-        pchAM=strtok(NULL, " .,-");
-        contAM +=1;
-    }
-
-
-
-    if (fgets(palabras_de_desagrado, sizeof(palabras_de_desagrado), file)) {
-        printf("\nPalabras de amistad: %s", palabras_de_desagrado);
-    }
-
-
-
-char *pchDA;
-    int contDA = 0 ;
-    pchDA = strtok(palabras_de_desagrado, " .,-");
-
-    while (pchDA != NULL)
-    {
-        printf("%d \t", contDA);
-
-        strcpy(desagrado[contDA], pchDA);
-        printf("%s\n", pchDA);
-        pchDA=strtok(NULL, " .,-");
-        contDA +=1;
-    }
-
-
-    if (fgets(palabras_de_felicidad, sizeof(palabras_de_felicidad), file)) {
-        printf("\nPalabras de amistad: %s", palabras_de_felicidad);
-    }
-    
-    
-
-    char *pchF;
-    int contF = 0 ;
-    pchF = strtok(palabras_de_felicidad, " .,-");
-
-    while (pchF != NULL)
-    {
-        printf("%d \t", contF);
-
-        strcpy(felicidad[contF], pchF);
-        printf("%s\n", pchF);
-        pchF=strtok(NULL, " .,-");
-        contF +=1;
-    }
-
-
-    fclose(file);
     return 0;
 }
